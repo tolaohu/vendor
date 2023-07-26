@@ -1,0 +1,1370 @@
+
+  <form [formGroup]="vendorForm">
+  <nb-card class="col-md-12 col-lg-12 col-xxxl-12" [nbSpinner]="processing" nbSpinnerStatus="success" nbSpinnerMessage="Saving ..." nbSpinnerSize="large" >
+    <nb-card-body style="overflow-x: hidden;">
+      <nb-stepper #stepper1 orientation="horizontal" *ngIf="part == 1">
+        <nb-step [label]="labelOne">
+          <ng-template #labelOne><span style="margin-left: 30px;" class="labelst">FORM IDENTIFICATION</span></ng-template>
+          <nb-card>
+            <nb-card-header>
+              <div class="row justify-content-center labelst">FORM IDENTIFICATION (INFORMATION OF INDIVIDUAL REGISTERING THE ENTERPRISE)</div>
+            <!-- <div class="row justify-content-center labelst"> Fields marked (*) are mandatory</div> -->
+            <div class="row justify-content-center labelst"> Part 1 (step 1 of 3) </div>
+          </nb-card-header>
+            <nb-card-body>
+                <div class="row" formGroupName="formIdentification">
+               <div class="col-md-6">
+                <div class="form-group">
+                  <label for="name" class="labelst">Name</label>
+                  <input type="text" formControlName="name" nbInput fullWidth id="name" placeholder="Name">
+                  <span style="color:#dc3545" *ngIf=" (vendorForm.get('formIdentification.name').touched) && (vendorForm.get('formIdentification.name').errors?.required)">
+                    Name is a required Field !!!
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label for="phoneNumber" class="labelst">Phone Number</label>
+                  <input type="tel" pattern="[0-9]{11}" formControlName="phoneNumber" nbInput fullWidth id="phoneNumber" placeholder="08075635423">
+                  <span style="color:#dc3545" *ngIf="(vendorForm.get('formIdentification.phoneNumber').touched) && (vendorForm.get('formIdentification').get('phoneNumber').errors?.required)">
+                    PhoneNumber is a required field !!!
+                  </span>
+                  <span style="color:#dc3545" *ngIf="(vendorForm.get('formIdentification').get('phoneNumber').errors?.pattern)">
+                    Please enter a valid phoneNumber !!!
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label for="emailAddress" class="labelst">Email Address</label>
+                  <input type="email" formControlName="emailAddress" nbInput fullWidth id="emailAddress" placeholder="Email">
+                  <span style="color:#dc3545" *ngIf="(vendorForm.get('formIdentification.emailAddress').touched) && (vendorForm.get('formIdentification').get('emailAddress').errors?.required)">
+                   Email is a required field !!!
+                  </span>
+                  <span style="color:#dc3545" *ngIf="(vendorForm.get('formIdentification').get('emailAddress').errors?.email)">
+                    Please enter a valid Email !!!
+                  </span>
+                </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="position" class="labelst">Position</label>
+                    <nb-select #sele fullWidth placeholder="Position" id="position" formControlName="venPosID">
+                      <nb-option [value]="item.venPosId"  *ngFor="let item of venPositions">{{item.venPosTitle}}</nb-option>
+                    </nb-select>
+                   <span style="color:#dc3545" *ngIf="(vendorForm.get('formIdentification.venPosID').touched) && (vendorForm.get('formIdentification.venPosID').errors?.required)">
+                    Position is a required Field !!!
+                  </span>
+                  </div>
+                  <div class="form-group">
+                    <label for="workPhoneNumber" class="labelst">Work Phone Number</label>
+                    <input type="text" formControlName="workPhoneNumber" nbInput fullWidth id="workPhoneNumber" placeholder="Work Phone number">
+                  <span style="color:#dc3545" *ngIf="(vendorForm.get('formIdentification.workPhoneNumber').touched) && (vendorForm.get('formIdentification').get('workPhoneNumber').errors?.required)">
+                    Work Phone Number is a required Field  !!!
+                  </span>
+                  <span style="color:#dc3545" *ngIf="(vendorForm.get('formIdentification').get('workPhoneNumber').errors?.pattern)">
+                    Please enter a valid Work Phone Number !!!
+                  </span>
+                  </div>
+                  <div class="form-group">
+                    <label for="name" class="labelst">Date</label><br>
+             <input nbInput formControlName="date" fullWidth placeholder="Pick Date" [nbDatepicker]="dateTimePicker">
+             <nb-datepicker #dateTimePicker></nb-datepicker>
+             <span style="color:#dc3545" *ngIf=" (vendorForm.get('formIdentification.date').touched) && (vendorForm.get('formIdentification.date').errors?.required)">
+              Date is a required Field !!!
+            </span>
+                  </div>
+                    </div>
+                </div>
+            </nb-card-body>
+          </nb-card>
+          <div class="spacebtn">
+          <button nbButton routerLink="/pages/dashboard" style="color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">Return To Dashboard</button>
+          <!-- <button nbButton [disabled]="(vendorForm.get('formIdentification').invalid)" nbStepperNext style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">Continue to PART 1 STEP 2</button> -->
+          <button nbButton (click)="onNext1()" style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">Continue to PART 1 STEP 2</button>
+          </div>
+        </nb-step>
+        <nb-step [label]="labelTwo">
+          <ng-template #labelTwo><span  class="labelst">SUPPLIER IDENTIFICATION</span></ng-template><nb-card>
+            <nb-card-header><div class="row justify-content-center labelst">SUPPLIER IDENTIFICATION</div>
+              <!-- <div class="row justify-content-center labelst"> Fields marked (*) are mandatory</div> -->
+              <div class="row justify-content-center labelst"> Part 1 (step 2 of 3)</div>
+            </nb-card-header>
+            <nb-card-body>
+              <ng-container formGroupName="supplierIdentification">
+                <!--company details-->
+                <div class="row mb">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="companyName" class="labelst">Company Name</label>
+                        <input type="text" formControlName="companyName" nbInput fullWidth id="companyName" placeholder="Company Name">
+                        <span style="color:#dc3545" *ngIf=" (vendorForm.get('supplierIdentification.companyName').touched) && (vendorForm.get('supplierIdentification.companyName').errors?.required)">
+                          Company Name is a required Field !!!
+                        </span>
+                      </div>
+                      <div class="form-group">
+                      <label for="companyProfile" class="labelst">Company Profile</label><br>
+                      <ngx-file-picker [id]="1" [fileName]=" this.service.comprName" (fileSelected)="onCompanyProfile($event)"></ngx-file-picker>
+                    </div>
+                    <div class="form-group">
+                      <label for="createdDate" class="labelst">Company Website URL</label>
+                      <input type="text" nbInput formControlName="companyWebsiteUrl" fullWidth id="companyWebsiteUrl" placeholder="e.g www.chuszky.com"
+                      
+                  [ngClass]="{'is-invalid':(vendorForm.get('supplierIdentification.companyWebsiteUrl').touched || vendorForm.get('supplierIdentification.companyWebsiteUrl').dirty) && (!vendorForm.get('supplierIdentification.companyWebsiteUrl').valid) }">
+                  <span style="color:#dc3545" *ngIf=" (vendorForm.get('supplierIdentification.companyWebsiteUrl').touched) && (vendorForm.get('supplierIdentification.companyWebsiteUrl').errors?.required)">
+                    Company Website URL is a required Field !!!
+                  </span>
+                  <span style="color:#dc3545" *ngIf="(vendorForm.get('supplierIdentification.companyWebsiteUrl').errors?.pattern)">
+                    Please enter a valid URL !!!
+                  </span>
+                    </div>
+                    <div class="form-group">
+                    <label for="bankRefLetter" class="labelst">Bank Reference Letter</label><br>
+                    <ngx-file-picker [id]="2" [fileName]=" this.service.banRefName" (fileSelected)="onBankRefLetter($event)"></ngx-file-picker>
+                  </div>
+                  <div class="form-group" style="margin-top: 40px;">
+                    <nb-checkbox formControlName="supplierIsForeign">Is this a Foreign Company?</nb-checkbox>
+                  </div>
+                  <div class="form-group">
+                    <label for="createdDate" class="labelst">Date of Creation</label><br>
+                    <input nbInput fullWidth formControlName="createdDate"
+                    placeholder="Date of Creation"
+                    [nbDatepicker]="formpicker">
+             <nb-datepicker #formpicker></nb-datepicker>
+             <span style="color:#dc3545" *ngIf=" (vendorForm.get('supplierIdentification.createdDate').touched) && (vendorForm.get('supplierIdentification.createdDate').errors?.required)">
+              Date of Creation is a required Field !!!
+            </span>
+            </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="companyRegistrationNumber" class="labelst">Company Registration Number</label>
+                    <input type="text" formControlName="companyRegNumber" nbInput fullWidth id="companyRegistrationNumber" placeholder="Company Registration Number">
+                    <span style="color:#dc3545" *ngIf=" (vendorForm.get('supplierIdentification.companyRegNumber').touched) && (vendorForm.get('supplierIdentification.companyRegNumber').errors?.required)">
+                      Company Registration Number is a required Field !!!
+                    </span>
+                  </div>
+                  <div class="form-group">
+                  <label for="taxCertificate" class="labelst">Tax Clearance Certificate</label><br>
+                  <ngx-file-picker [id]="3" [fileName]=" this.service.taxclrName" (fileSelected)="onTaxClearCert($event)"></ngx-file-picker>
+                </div>
+                <div class="form-group">
+                  <label for="commissionNumber" class="labelst">Corporate Affairs Commission Number</label>
+                  <input type="text" formControlName="corporateAffairsCommisionNo" nbInput fullWidth id="commissionNumber" placeholder="Corporate Affairs Commission Number">
+                  <span style="color:#dc3545" *ngIf=" (vendorForm.get('supplierIdentification.corporateAffairsCommisionNo').touched) && (vendorForm.get('supplierIdentification.corporateAffairsCommisionNo').errors?.required)">
+                    Corporate Affairs Commission Number is a required Field !!!
+                  </span>
+                </div>
+                <div class="form-group">
+                <label for="thirdPartyRef" class="labelst">Third Party Reference</label><br>
+              <ngx-file-picker [id]="4" [fileName]=" this.service.thrdRefName" (fileSelected)="onThirdPartyRef($event)"></ngx-file-picker>
+              </div>
+              <div class="form-group">
+                <label for="companyHeadOfficeAddress" class="labelst">Company Head Office Address</label>
+                <textarea rows="4" nbInput fullWidth formControlName="headOfficeAddress" id="companyHeadOfficeAddress" placeholder="Company Head Office Address"></textarea>
+                <span style="color:#dc3545" *ngIf=" (vendorForm.get('supplierIdentification.headOfficeAddress').touched) && (vendorForm.get('supplierIdentification.headOfficeAddress').errors?.required)">
+                  Company Head Office Address is a required Field !!!
+                </span>
+              </div>
+                    </div>
+                </div>
+              </ng-container>
+                <!--Subsidary company -->
+                <ng-container formArrayName="subsidiaryCompanies" *ngFor="let item of subsidiaryCompanies.controls; let i =index" >
+                  <div class="row" [formGroupName]="i">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label attr.for="{{'subsyComName' + i}}" class="labelst">Subsidiary Company Name </label>
+                      <input type="text" nbInput fullWidth id="{{'subsyComName' + i}}" placeholder="Subsidiary Company Name" formControlName="subsidiaryCompanyName">
+                    </div>
+                </div>
+                </div>
+                </ng-container>
+                <button type="button" class="mb-4 mr-2" [disabled]= "!(subsidiaryCompanies.controls[subsidiaryCompanies.length-1].get('subsidiaryCompanyName').value)" (click)="addSubsidiaryCompany()" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="plus-outline"></nb-icon> Add
+                </button>
+                <button type="button" class="mb-4" [disabled]= "(subsidiaryCompanies.length < 2)" (click)="removeSubsidiaryCompany(subsidiaryCompanies.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="close-outline"></nb-icon> Remove
+                </button>
+                
+                   <!--contact person-->
+                   <ng-container formArrayName="contactPersons" *ngFor="let item of contactPersons.controls; let i =index" >
+                    <div class="row mb" [formGroupName]="i"> 
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label attr.for="{{'contactPerson' + i}}"  class="labelst">Main Contact Person Name</label>
+                        <nb-select fullWidth id="{{'contactPerson' + i}}" placeholder="Main Contact Person Name" formControlName="contactPersonName">
+                          <nb-option [value]="item.contactPersonName"  *ngFor="let item of allContactPersons">{{item.contactPersonName}}</nb-option>
+                        </nb-select>
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'contactPhoneNumber' + i}}" class="labelst">Main Contact Phone Number</label>
+                        <input type="tel" pattern="[0-9]{11}" nbInput fullWidth id="{{'contactPhoneNumber' + i}}" placeholder="e.g 09076534265" formControlName="phoneNumber"
+                        [ngClass]="{'is-invalid':(contactPersons.controls[i].get('phoneNumber').touched || contactPersons.controls[i].get('phoneNumber').dirty) && (!contactPersons.controls[i].get('phoneNumber').valid) }">
+                        <span style="color:#dc3545" *ngIf="(contactPersons.controls[i].get('phoneNumber').errors?.pattern)">
+                          Please enter a valid phoneNumber
+                        </span>
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'contactEmail' + i}}" class="labelst">Main Contact Email</label>
+                        <input type="email" nbInput fullWidth id="{{'contactEmail' + i}}" placeholder="Main Contact Email" formControlName="emailAddress"
+                        [ngClass]="{'is-invalid':(contactPersons.controls[i].get('emailAddress').touched || contactPersons.controls[i].get('emailAddress').dirty) && (!contactPersons.controls[i].get('emailAddress').valid) }">
+                        <span style="color:#dc3545" *ngIf="(contactPersons.controls[i].get('emailAddress').errors?.email)">
+                          Please enter a valid Email !!!
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label attr.for="{{'venPosition' + i}}" class="labelst">Vendor Position</label>
+                        <nb-select #sele fullWidth placeholder="Position" id="position" formControlName="venPosID">
+                          <nb-option [value]="item.venPosId"  *ngFor="let item of venPositions">{{item.venPosTitle}}</nb-option>
+                        </nb-select>
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'contactWorkPhoneNumber' + i}}"  class="labelst">Main Contact Work Phone Number</label>
+                        <input type="tel" pattern="[0-9]{11}" nbInput fullWidth id="{{'contactWorkPhoneNumber' + i}}" placeholder="e.g 09076534265" formControlName="workPhoneNumber"
+                        [ngClass]="{'is-invalid':(contactPersons.controls[i].get('workPhoneNumber').touched || contactPersons.controls[i].get('workPhoneNumber').dirty) && (!contactPersons.controls[i].get('workPhoneNumber').valid) }">
+                        <span style="color:#dc3545" *ngIf="(contactPersons.controls[i].get('workPhoneNumber').errors?.pattern)">
+                          Please enter a valid phoneNumber
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                   </ng-container>
+                   <button type="button" class="mb-4 mr-2" [disabled]= "(contactPersons.controls[contactPersons.length-1].pristine)" (click)="addContactPersons()" nbButton outline [status]="'info'" [size]="'small'">
+                     <nb-icon icon="plus-outline"></nb-icon> Add
+                   </button>
+                   <button type="button" class="mb-4" [disabled]= "(contactPersons.length < 2)" (click)="removeContactPersons(contactPersons.length-1)" nbButton outline [status]="'info'" [size]="'small'">
+                     <nb-icon icon="close-outline"></nb-icon> Remove
+                   </button>
+                  <!--Third party ref-->
+                  <ng-container formArrayName="thirdPartyReferences" *ngFor="let item of thirdPartyReferences.controls; let i =index" >
+                    <div class="row mb" [formGroupName]="i"> 
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label attr.for="{{'thirdPartyRefName' + i}}" class="labelst">Third Party Reference Name</label>
+                        <nb-select fullWidth id="{{'thirdPartyRefName' + i}}" placeholder="Third Party Reference Name" formControlName="tprName">
+                          <nb-option [value]="item.tprName"  *ngFor="let item of thirdPartyReference">{{item.tprName}}</nb-option>
+                        </nb-select>
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'thirdPartyRefPhoneNumber' + i}}" class="labelst">Third Party Reference Phone Number</label>
+                        <input type="tel" pattern="[0-9]{11}" nbInput fullWidth id="{{'thirdPartyRefPhoneNumber' + i}}" placeholder="e.g 09076534265" formControlName="tprPhoneNumber"
+                        [ngClass]="{'is-invalid':(thirdPartyReferences.controls[i].get('tprPhoneNumber').touched || thirdPartyReferences.controls[i].get('tprPhoneNumber').dirty) && (!thirdPartyReferences.controls[i].get('tprPhoneNumber').valid) }">
+                        <span style="color:#dc3545" *ngIf="(thirdPartyReferences.controls[i].get('tprPhoneNumber').errors?.pattern)">
+                          Please enter a valid phoneNumber
+                        </span>
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'thirdPartyRefOrg' + i}}" class="labelst">Third Party Reference Organization</label>
+                        <input type="text" nbInput fullWidth id="{{'thirdPartyRefOrg' + i}}" placeholder="Third Party Reference Organization" formControlName="tprOrganization">
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label attr.for="{{'thirdPartyRefEmail' + i}}" class="labelst">Third Party Reference Email</label>
+                        <input type="email" nbInput fullWidth id="{{'thirdPartyRefEmail' + i}}" placeholder="Third Party Reference Email" formControlName="tprEmailAddress"
+                        [ngClass]="{'is-invalid':(thirdPartyReferences.controls[i].get('tprEmailAddress').touched || thirdPartyReferences.controls[i].get('tprEmailAddress').dirty) && (!thirdPartyReferences.controls[i].get('tprEmailAddress').valid) }">
+                        <span style="color:#dc3545" *ngIf="(thirdPartyReferences.controls[i].get('tprEmailAddress').errors?.email)">
+                          Please enter a valid Email !!!
+                        </span>
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'thirdPartyRefWorkPhoneNumber' + i}}" class="labelst">Third Party Reference Work Phone Number</label>
+                        <input type="tel" pattern="[0-9]{11}" nbInput fullWidth id="{{'thirdPartyRefWorkPhoneNumber' + i}}" placeholder="e.g 09076534265" formControlName="tprWorkPhoneNumber"
+                        [ngClass]="{'is-invalid':(thirdPartyReferences.controls[i].get('tprWorkPhoneNumber').touched || thirdPartyReferences.controls[i].get('tprWorkPhoneNumber').dirty) && (!thirdPartyReferences.controls[i].get('tprWorkPhoneNumber').valid) }">
+                        <span style="color:#dc3545" *ngIf="(thirdPartyReferences.controls[i].get('tprWorkPhoneNumber').errors?.pattern)">
+                          Please enter a valid phoneNumber
+                        </span>
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'thirdPartyRefAddress' + i}}" class="labelst">Third Party Reference Address</label>
+                        <textarea nbInput fullWidth id="{{'thirdPartyRefAddress' + i}}" placeholder="Third Party Reference Address" formControlName="tprAddress"></textarea>
+                    </div>
+
+                    </div>
+                  </div>
+                  </ng-container>
+                <button type="button" class="mb-3 mr-2" [disabled]= "(thirdPartyReferences.controls[thirdPartyReferences.length-1].pristine)" (click)="addThirdPartyRef()" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="plus-outline"></nb-icon> Add
+                </button>
+                <button type="button" class="mb-3" [disabled]= "(thirdPartyReferences.length < 2)" (click)="removeThirdPartyRef(thirdPartyReferences.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="close-outline"></nb-icon> Remove
+                </button>
+            </nb-card-body>
+          </nb-card>
+          <div class="spacebtn">
+          <button nbButton nbStepperPrevious style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">FORM IDENTIFICATION - PART 1 STEP 1</button>
+          <button nbButton nbStepperNext style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">CONTINUE TO PART 1 STEP 3</button>
+          <!-- <button nbButton (click)="onNext2()" style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">Continue to PART 1 STEP 3</button> -->
+          </div>
+        </nb-step>
+        <nb-step [label]="labelThree">
+          <ng-template #labelThree><span  class="labelst">SUPPLIER PROFILE</span></ng-template>
+            <nb-card>
+              <nb-card-header><div class="row justify-content-center labelst">SUPPLIER PROFILE</div>
+                <!-- <div class="row justify-content-center labelst"> Fields marked (*) are mandatory</div> -->
+                <div class="row justify-content-center labelst">Part 1 (step 3 of 3)</div>
+              </nb-card-header>
+              <nb-card-body>
+                  <!--company details-->
+                  <div class="row mb" formGroupName="supplierProfile">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="natureBusiness" class="labelst">Nature of Business</label>
+                          <textarea rows="4" formControlName="natureOfBusiness" nbInput fullWidth id="natureBusiness" placeholder="Nature of Business"></textarea>
+                          <span style="color:#dc3545" *ngIf=" (vendorForm.get('supplierProfile.natureOfBusiness').touched) && (vendorForm.get('supplierProfile.natureOfBusiness').errors?.required)">
+                            Nature of Business is a required Field !!!
+                          </span>
+                        </div>
+                        <div class="form-group">
+                        <label for="codeConduct" class="labelst">Code of Conduct</label><br>
+                        <ngx-file-picker [id]="1" [fileName]=" this.service.codConName" (fileSelected)="onCodeConduct($event)"></ngx-file-picker>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="orgChart" class="labelst">Organization Charts</label><br>
+                    <ngx-file-picker [id]="2" [fileName]=" this.service.orgChtName" (fileSelected)="onOrganChart($event)"></ngx-file-picker>
+                  </div>
+                    <div class="form-group">
+                    <label for="missionStatement" class="labelst">Mission And Vision Statement</label><br>
+                    <ngx-file-picker [id]="3" [fileName]=" this.service.misVisStaName" (fileSelected)="onMissionVision($event)"></ngx-file-picker>
+                  </div>
+                  </div>
+                  </div>
+                  <!--ownership -->
+                  <ng-container formArrayName="supplierOwnerships" *ngFor="let item of supplierOwnerships.controls; let i =index" >
+                  <div class="row mb" [formGroupName]="i">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label attr.for="{{'ownerMainShareHolder' + i}}" class="labelst">Ownership Main Share Holder</label>
+                        <input type="text" nbInput fullWidth id="{{'ownerMainShareHolder' + i}}"  placeholder="Ownership Main Share Holder" formControlName="mainShareholder">
+                        <span style="color:#dc3545" *ngIf=" (item.get('mainShareholder').touched) && (item.get('mainShareholder').errors?.required)">
+                          Ownership Main Share Holder is a required Field !!!
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label attr.for="{{'ownerMainShareHolding' + i}}" class="labelst">Ownership Share Holding </label>
+                        <input type="number" step="0.01" nbInput fullWidth id="{{'ownerMainShareHolding' + i}}" placeholder="Ownership Share Holding " formControlName="shareholding">
+                        <span style="color:#dc3545" *ngIf=" (item.get('shareholding').touched) && (item.get('shareholding').errors?.required)">
+                          Ownership Share Holding is a required Field !!!
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                    <div class="form-group">
+                      <label attr.for="{{'ownerNationality' + i}}" class="labelst">Ownership Nationality </label>
+                      <nb-select placeholder="Select Nationality" fullWidth formControlName="countryId">
+                        <nb-option [value]="item.countryId"  *ngFor="let item of nationalities">{{item.countryName}}</nb-option>
+                      </nb-select>
+                      <span style="color:#dc3545" *ngIf=" (item.get('countryId').touched) && (item.get('countryId').errors?.required)">
+                        Ownership Nationality is a required Field !!!
+                      </span>
+                    </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <div class="spacebtn">
+                <div>
+                <button type="button" class="mr-2" [disabled]= "(supplierOwnerships.controls[supplierOwnerships.length-1].pristine)" (click)="addOwnership()" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="plus-outline"></nb-icon> Add
+                </button>
+                <button type="button" [disabled]= "(supplierOwnerships.length < 2)" (click)="removeOwnership(supplierOwnerships.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="close-outline"></nb-icon> Remove
+                </button>
+              </div>
+                  <button nbButton *ngIf="bt1" (click)="op(1)" style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'small'">Continue</button>
+                </div>
+                  <div *ngIf="v2">
+                  <div class="row justify-content-center" style="margin: 50px 0px;">
+                    <span class="sect">SECTION 3.1 -This Section is to be filled by Fabricators/Manufacturers/Construction Contractors</span>
+                  </div>
+                     <!--material-->
+                     <ng-container formArrayName="directServiceScopes" *ngFor="let item of directServiceScopes.controls; let i =index" >
+                      <div class="row" [formGroupName]="i"> 
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label attr.for="{{'serviceMaterial' + i}}" class="labelst">Direct Service Scope Materials</label>
+                          <input type="text" nbInput fullWidth id="{{'serviceMaterial' + i}}" placeholder="Direct service Scope Materials" formControlName="materialsName">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label attr.for="{{'serviceSubCate' + i}}" class="labelst">Service Scope SubCategory</label>
+                          <nb-select fullWidth id="{{'serviceSubCate' + i}}" placeholder="Service Scope SubCategory" formControlName="subCategoryId">
+                            <nb-option [value]="item.subCategoryId"  *ngFor="let item of subCategory">{{item.name}}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                     </ng-container>
+                     <button type="button" class="mb-4 mr-2" [disabled]= "(directServiceScopes.controls[directServiceScopes.length-1].pristine)" (click)="addDirectServiceScope()" nbButton outline [status]="'info'" [size]="'small'">
+                       <nb-icon icon="plus-outline"></nb-icon> Add
+                     </button>
+                     <button type="button" class="mb-4" [disabled]= "(directServiceScopes.length < 2)" (click)="removeDirectServiceScope(directServiceScopes.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                       <nb-icon icon="close-outline"></nb-icon> Remove
+                     </button>
+
+                    <!--sub contractors-->
+                    <ng-container  formArrayName="typicalSubcontractedScopes" *ngFor="let item of typicalSubcontractedScopes.controls; let i =index" >
+                      <div class="row" [formGroupName]="i">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label attr.for="{{'subContractorName' + i}}" class="labelst">Typical SubContractor Name </label>
+                          <input type="text" nbInput fullWidth id="{{'subContractorName' + i}}" placeholder="Typical Subcontractor Name " formControlName="subConName">
+                        </div>
+                        <div class="form-group">
+                          <label attr.for="{{'subContractorProducts' + i}}" class="labelst">Typical SubContracted Scope Products</label>
+                          <nb-select fullWidth placeholder="Typical Subcontracted Scope Products1" formControlName="productId">
+                            <nb-option [value]="item.productId"  *ngFor="let item of products">{{item.productName}}</nb-option>
+                          </nb-select>
+                        </div>
+                          <nb-checkbox formControlName="isLocal">Typical Subcontracted Scope is Local?</nb-checkbox>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="{{'subContractorAddress' + i}}" class="labelst">Typical SubContractor Address </label>
+                      <input type="text" nbInput fullWidth id="{{'subContractorAddress' + i}}" placeholder="Typical SubContractor Address " formControlName="subConAddress">
+                    </div>
+                    <div class="form-group">
+                      <label for="{{'subContractorCountrt' + i}}"  class="labelst">Typical SubContracted Scope Country </label>
+                      <nb-select placeholder="Select Country" fullWidth formControlName="countryId">
+                        <nb-option [value]="item.countryId"  *ngFor="let item of nationalities">{{item.countryName}}</nb-option>
+                      </nb-select>
+                    </div>
+                    
+                      </div>
+                  </div>
+                  </ng-container>
+                <button type="button" class="mt-3 mb-3 mr-2" [disabled]= "(typicalSubcontractedScopes.controls[typicalSubcontractedScopes.length-1].pristine)" (click)="addTypicalSubContracted()" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="plus-outline"></nb-icon> Add
+                </button>
+                <button type="button" class="mt-3 mb-3" [disabled]= "(typicalSubcontractedScopes.length < 2)" (click)="removeTypicalSubContracted(typicalSubcontractedScopes.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="close-outline"></nb-icon> Remove
+                </button>
+
+               <!--construction yard-->
+               <ng-container formArrayName="constructionYardMfgs" *ngFor="let item of constructionYardMfgs.controls; let i =index" >
+                <div class="row" [formGroupName]="i"> 
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label attr.for="{{'constructionYardLoc' + i}}" class="labelst">Construction Yard Location</label>
+                    <input type="text" nbInput fullWidth id="{{'constructionYardLoc' + i}}" placeholder="Construction Yard Location" formControlName="location">
+                  </div>
+                  <div class="form-group">
+                    <label attr.for="{{'constructionYardEquType' + i}}" class="labelst">Construction Yard Equipment Type
+                    </label>
+                    <input type="text" nbInput fullWidth id="{{'constructionYardEquType' + i}}" placeholder="Construction Yard Equipment Type" formControlName="plantsEquipmentType">
+                  </div>
+                  <div class="form-group">
+                    <label attr.for="{{'constructionYardUti' + i}}" class="labelst">Construction Yard Utilization</label>
+                    <input type="text" nbInput fullWidth id="{{'constructionYardUti' + i}}" placeholder="Construction Yard Utilization" formControlName="utilization">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label attr.for="{{'yardCity' + i}}" class="labelst">Construction Yard City</label>
+                    <nb-select placeholder="Select City"  fullWidth formControlName="cityId">
+                      <nb-option [value]="item.cityId"  *ngFor="let item of cities">{{item.cityName}}</nb-option>
+                    </nb-select>
+                  </div>
+                  <div class="form-group">
+                    <label attr.for="{{'yardEquipment' + i}}" class="labelst">Construction Yard Equipment Number </label>
+                    <input type="number" nbInput fullWidth id="{{'yardEquipment' + i}}" placeholder="Construction Yard Equipment Number " formControlName="plantsEquipmentNumber">
+                  </div>
+                  <div class="form-group">
+                    <label attr.for="{{'yardFactoryArea' + i}}" class="labelst">Construction Yard Factory Area</label>
+                    <input type="number" nbInput fullWidth id="{{'yardFactoryArea' + i}}" placeholder="Construction Yard Factory Area" formControlName="factoryArea">
+                  </div>
+                </div>
+              </div>
+               </ng-container>
+               <div class="spacebtn">
+                 <div>
+               <button type="button"  class="mr-2" [disabled]= "(constructionYardMfgs.controls[constructionYardMfgs.length-1].pristine)" (click)="addConstructionYard()" nbButton outline [status]="'info'" [size]="'small'">
+                 <nb-icon icon="plus-outline"></nb-icon> Add
+               </button>
+               <button type="button" [disabled]= "(constructionYardMfgs.length < 2)" (click)="removeConstructionYard(constructionYardMfgs.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                 <nb-icon icon="close-outline"></nb-icon> Remove
+               </button>
+              </div>
+               <button nbButton *ngIf="bt2" (click)="op(2)" style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'small'">Continue</button>
+               </div>
+            </div>
+              <div  *ngIf="v3">
+              <div class="row justify-content-center" style="margin: 50px 0px;">
+                <span class="sect2">
+                  SECTION 3.2 -This Section is to be filled by Service Providers</span>
+              </div>
+              <!--Direct scope service-->
+              <ng-container class="mb" formArrayName="spDirectServiceScopes" *ngFor="let item of spDirectServiceScopes.controls; let i =index" >
+                <div class="row" [formGroupName]="i">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label attr.for="{{'scopeService' + i}}" class="labelst">Direct Service Scope Service </label>
+                    <input type="text" nbInput fullWidth id="{{'scopeService' + i}}" placeholder="Direct service Scope Service" formControlName="spServices">
+                  </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label attr.for="{{'scopeDescription' + i}}" class="labelst">Direct Service Scope Description </label>
+                <textarea nbInput fullWidth id="{{'scopeDescription' + i}}" placeholder="Direct service Scope Description " formControlName="description"></textarea>
+              </div>
+                </div>
+            </div>
+            </ng-container>
+            <button type="button" class="mb-3 mr-2" [disabled]= "(spDirectServiceScopes.controls[spDirectServiceScopes.length-1].pristine)" (click)="addspDirectService()" nbButton outline [status]="'info'" [size]="'small'">
+              <nb-icon icon="plus-outline"></nb-icon> Add
+            </button>
+            <button type="button" class="mb-3" [disabled]= "(spDirectServiceScopes.length < 2)" (click)="removespDirectService(spDirectServiceScopes.length-1)" nbButton outline [status]="'info'" [size]="'small'">
+              <nb-icon icon="close-outline"></nb-icon> Remove
+            </button>
+            <!--Office Location -->
+            <ng-container class="mb" formArrayName="officeServiceCLs" *ngFor="let item of officeServiceCLs.controls; let i =index" >
+              <div class="row" [formGroupName]="i">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label attr.for="{{'OfficeLocation' + i}}" class="labelst">Office Location </label>
+                  <input type="text" nbInput fullWidth id="{{'OfficeLocation' + i}}" placeholder="Office Location" formControlName="location">
+                </div>
+                <div class="form-group">
+                  <label attr.for="{{'scopeService' + i}}" class="labelst">Direct Service Scope Service </label>
+                  <input type="text" nbInput fullWidth id="{{'scopeService' + i}}" placeholder="Direct service Scope Service" formControlName="spServices">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label attr.for="{{'officeCountry' + i}}" class="labelst">Office Country </label>
+                  <nb-select placeholder="Select country" fullWidth formControlName="countryId">
+                    <nb-option [value]="item.countryId"  *ngFor="let item of nationalities">{{item.countryName}}</nb-option>
+                  </nb-select>
+                  </div>
+                  <div class="form-group">
+                    <label  attr.for="{{'officeCity' + i}}" class="labelst">Office City</label>
+                    <nb-select placeholder="Select City" fullWidth formControlName="cityId">
+                      <nb-option [value]="item.cityId"  *ngFor="let item of cities">{{item.cityName}}</nb-option>
+                    </nb-select>
+                  </div>
+              </div>
+            </div>
+            </ng-container>
+            <button type="button" class="mb-3 mr-2" [disabled]= "(officeServiceCLs.controls[officeServiceCLs.length-1].pristine)" (click)="addofficeLocation()" nbButton outline [status]="'info'" [size]="'small'">
+              <nb-icon icon="plus-outline"></nb-icon> Add
+            </button>
+            <button type="button" class="mb-3" [disabled]= "(officeServiceCLs.length < 2)" (click)="removeofficeLocation(officeServiceCLs.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+              <nb-icon icon="close-outline"></nb-icon> Remove
+            </button>
+            <!--Sub Contracted -->
+            <ng-container class="mb" formArrayName="subcontractedServices" *ngFor="let item of subcontractedServices.controls; let i =index" >
+              <div class="row" [formGroupName]="i">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label attr.for="{{'subContractedService' + i}}" class="labelst">SubContracted Service</label>
+                  <nb-select fullWidth placeholder="SubContracted Service" formControlName="serviceId">
+                    <nb-option [value]="item.serviceId"  *ngFor="let item of services">{{item.serviceName}}</nb-option>
+                  </nb-select>
+                </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label attr.for="{{'subContractedPercentOut' + i}}" class="labelst">SubContracted Percentage Outsourced</label>
+              <input type="number" nbInput fullWidth id="{{'subContractedPercentOut' + i}}" placeholder="Sub Contracted Percentage Outsourced" formControlName="percentageOutsourced">
+            </div>
+              </div>
+            </div>
+            </ng-container>
+            <button type="button" class="mb-3 mr-2" [disabled]= "(subcontractedServices.controls[subcontractedServices.length-1].pristine)" (click)="addsubContratedService()" nbButton outline [status]="'info'" [size]="'small'">
+              <nb-icon icon="plus-outline"></nb-icon> Add
+            </button>
+            <button type="button" class="mb-3" [disabled]= "(subcontractedServices.length < 2)" (click)="removesubContratedService(subcontractedServices.length - 2)" nbButton outline [status]="'info'" [size]="'small'">
+              <nb-icon icon="close-outline"></nb-icon> Remove
+            </button>
+          <!-- sub contracted details -->
+          <ng-container class="mb" formArrayName="subcontractorDetails" *ngFor="let item of subcontractorDetails.controls; let i =index" >
+            <div class="row" [formGroupName]="i">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label attr.for="{{'subContractorName' + i}}"  class="labelst">SubContractor Name</label>
+                <input type="text" nbInput fullWidth id="{{'subContractorName' + i}}" placeholder="Sub Contractor Name" formControlName="subConName">
+              </div>
+            <div class="form-group">
+              <label attr.for="{{'subcontractedScopeCountry' + i}}" class="labelst">SubContracted Scope Country</label>
+              <nb-select placeholder="Select Country" fullWidth formControlName="countryId">
+                <nb-option [value]="item.countryId"  *ngFor="let item of nationalities">{{item.countryName}}</nb-option>
+              </nb-select>
+            </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label attr.for="{{'subContractorAddress' + i}}" class="labelst">SubContractor Address</label>
+            <input type="text" nbInput fullWidth id="{{'subContractorAddress' + i}}" placeholder="Sub Contractor Address" formControlName="subConAddress">
+          </div>
+          <div style="margin-top: 60px;">
+            <nb-checkbox formControlName="isLocal">Is Local?</nb-checkbox>
+          </div>
+            </div>
+            </div>
+          </ng-container>
+          <div class="spacebtn">
+            <div>
+          <button type="button" class="mr-2" [disabled]= "(subcontractorDetails.controls[subcontractorDetails.length-1].pristine)" (click)="addsubContratedDetails()" nbButton outline [status]="'info'" [size]="'small'">
+            <nb-icon icon="plus-outline"></nb-icon> Add
+          </button>
+          <button type="button" [disabled]= "(subcontractorDetails.length < 2)" (click)="removesubContratedDetails(subcontractorDetails.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+            <nb-icon icon="close-outline"></nb-icon> Remove
+          </button>
+        </div>
+          <button nbButton *ngIf="bt3" (click)="op(3)" style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'small'">Continue</button>
+          </div>
+          </div>
+
+          <div *ngIf="v4">
+          <div class="row justify-content-center" style="margin: 50px 0px;">
+            <span class="sect2">
+              SECTION 3.3 -This Section is to be filled by Agents/Distributors</span>
+          </div>
+
+          <!--Agent/distributors-->
+          <ng-container class="mb" formArrayName="foriengnCompanies" *ngFor="let item of foriengnCompanies.controls; let i =index" >
+            <div class="row" [formGroupName]="i">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label attr.for="{{'foreignCompanyName' + i}}" class="labelst">Foreign Company Name</label>
+                <input type="text" nbInput fullWidth id="{{'foreignCompanyName' + i}}" placeholder="Foreign Company Name" formControlName="companyName">
+              </div>
+              <div class="form-group">
+                <label attr.for="{{'status' + i}}" class="labelst">Status</label>
+                <nb-select placeholder="Select Status" fullWidth formControlName="status">
+                  <nb-option value="1">Agent</nb-option>
+                  <nb-option value="2">Distributors</nb-option>
+                </nb-select>
+              </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label attr.for="{{'productSupplied' + i}}"  class="labelst">Product Supplied</label>
+            <nb-select id="{{'productSupplied' + i}}" placeholder="Product Supplied" fullWidth formControlName="productSupplied">
+              <nb-option [value]="item.productId"  *ngFor="let item of products">{{item.productName}}</nb-option>
+            </nb-select>
+          </div>
+          <div class="form-group">
+            <label attr.for="{{'otherForeignCompanies' + i}}" class="labelst">Others</label>
+            <textarea nbInput fullWidth id="{{'otherForeignCompanies' + i}}" placeholder="Other Foreign Companies" formControlName="others"></textarea>
+          </div>
+            </div>
+            </div>
+          </ng-container>
+          <button type="button" class="mb-3 mr-2" [disabled]= "(foriengnCompanies.controls[foriengnCompanies.length-1].pristine)" (click)="addForiegnCompany()" nbButton outline [status]="'info'" [size]="'small'">
+            <nb-icon icon="plus-outline"></nb-icon> Add
+          </button>
+          <button type="button" class="mb-3" [disabled]= "(foriengnCompanies.length < 2)" (click)="removeForiegnCompany(foriengnCompanies.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+            <nb-icon icon="close-outline"></nb-icon> Remove
+          </button>
+      </div>
+              </nb-card-body>
+              </nb-card>
+              <div class="spacebtn">
+              <button nbButton nbStepperPrevious style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">SUPPLIER IDENTIFICATION - PART 1 STEP 2</button>
+              <!-- <button nbButton nbStepperNext [status]="'success'" outline  [size]="'medium'">CONTINUE TO STEP 4</button> -->
+              <!-- <button nbButton [disabled]="!v4" style=" color: #1F1FFF; border-color: #1F1FFF;" (click)="onNext3()" [status]="'success'" outline  [size]="'medium'">PROCEED TO PART 2</button> -->
+              <button nbButton [disabled]="!v4" style=" color: #1F1FFF; border-color: #1F1FFF;" (click)="part = 2" [status]="'success'" outline  [size]="'medium'">PROCEED TO PART 2</button>
+              </div>
+        </nb-step>
+      </nb-stepper>
+      <nb-stepper #stepper2 orientation="horizontal" *ngIf="part == 2">
+        <nb-step [label]="labelOne">
+          <ng-template #labelOne><span style="margin-left: 30px;" class="labelst">BUSINESS EXPERIENCE</span></ng-template>
+            <nb-card>
+              <nb-card-header>
+                <div class="row justify-content-center labelst">BUSINESS EXPERIENCE</div>
+              <!-- <div class="row justify-content-center labelst"> Fields marked (*) are mandatory</div> -->
+              <div class="row justify-content-center labelst">Part 2 (step 1 of 3)</div>
+            </nb-card-header>
+              <nb-card-body>
+                <ng-container formArrayName="businessExperiences" *ngFor="let item of businessExperiences.controls; let i =index" >
+                  <div class="row"  [formGroupName]="i">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label attr.for="{{'dateReg' + i}}" class="labelst">Registration Date</label><br>
+                          <input nbInput fullWidth
+                          placeholder="Registration date" formControlName="registrationDate"
+                          [nbDatepicker]="formpicker">
+                   <nb-datepicker #formpicker></nb-datepicker>
+                        </div>
+                        <div class="form-group">
+                        <label attr.for="{{'buzContPolicy' + i}}" class="labelst">Business Continuity Policy</label><br>
+                        <ngx-file-picker [id]="1 + ( 2*i )" [fileName]=" this.service.busConPol[i]" (fileSelected)="onBusinessPolicy($event)"></ngx-file-picker>
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'companyWorkWith' + i}}" class="labelst">Company Worked with</label>
+                        <input type="text" formControlName="companyWorkedWith" nbInput fullWidth id="{{'companyWorkWith' + i}}" placeholder="Company Worked with">
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'scopeCovered' + i}}" class="labelst">Scope Covered</label>
+                        <input type="text" formControlName="scopeCovered" nbInput fullWidth id="{{'scopeCovered' + i}}" placeholder="Scope Covered">
+                      </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label attr.for="{{'financialTurnOver' + i}}" class="labelst">Financial Turnover</label>
+                          <input type="number" formControlName="financialTurnover" nbInput fullWidth id="{{'financialTurnOver' + i}}" placeholder="Financial Turnover"
+                          [ngClass]="{'is-invalid':(businessExperiences.controls[i].get('financialTurnover').touched || businessExperiences.controls[i].get('financialTurnover').dirty) && (!businessExperiences.controls[i].get('financialTurnover').valid) }">
+                          <span style="color:#dc3545" *ngIf="(businessExperiences.controls[i].get('financialTurnover').touched) && (businessExperiences.controls[i].get('financialTurnover').errors?.min)">
+                            Minimum must be 10000000
+                          </span>
+                        </div>
+                        <div class="form-group">
+                        <label attr.for="{{'transactionReference' + i}}" class="labelst">Transaction Reference</label><br>
+                        <ngx-file-picker [id]="2 + ( 2*i)" [fileName]=" this.service.transRef[i]" (fileSelected)="onTransactionRef($event)"></ngx-file-picker>
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'mobilizationDate' + i}}" class="labelst">Mobilization Date</label>
+                        <input type="text" nbInput fullWidth id="{{'mobilizationDate' + i}}" formControlName="mobilizationDate" placeholder="Mobilization Date" [nbDatepicker]="mobilizationDate">
+                        <nb-datepicker #mobilizationDate></nb-datepicker>
+                      </div>
+
+                      <div class="form-group">
+                        <label attr.for="{{'demobilizationDate' + i}}" class="labelst">Demobilization Date</label>
+                        <input type="text" nbInput fullWidth id="{{'demobilizationDate' + i}}" formControlName="demobilizationDate" placeholder="Demobilization Date" [nbDatepicker]="demobilizationDate">
+                        <nb-datepicker #demobilizationDate></nb-datepicker>
+                      </div>
+
+                      <div style="margin-top: 60px;"><nb-checkbox formControlName="hasContinuityPolicy">Has Business Continuity Policy?</nb-checkbox></div>
+                      </div>
+                  </div>
+                </ng-container>
+                <button type="button" class="mb-4 mr-2" [disabled]= "(businessExperiences.controls[businessExperiences.length-1].pristine)" (click)="addBusinessExp()" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="plus-outline"></nb-icon> Add
+                </button>
+                <button type="button" class="mb-4" [disabled]= "(businessExperiences.length < 2)" (click)="removeBusinessExp(businessExperiences.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="close-outline"></nb-icon> Remove
+                </button>
+                <ng-container formArrayName="mainCustomers" *ngFor="let item of mainCustomers.controls; let i = index" >
+                  <div class="row"  [formGroupName]="i">
+                      <div class="col-md-6">
+                      <div class="form-group">
+                        <label attr.for="{{'customerName' + i}}" class="labelst">Customer Name</label>
+                        <input type="text" formControlName="customerName" nbInput fullWidth id="{{'customerName' + i}}" placeholder="Customer Name">
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'ValueYear' + i}}" class="labelst">Value Year</label>
+                        <input type="number" formControlName="valueYear" nbInput fullWidth id="{{'ValueYear' + i}}" placeholder="Value Year">
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'Product' + i}}" class="labelst">Product</label>
+                        <nb-select fullWidth placeholder="Select Product" formControlName="productId">
+                          <nb-option [value]="item.productId"  *ngFor="let item of products">{{item.productName}}</nb-option>
+                        </nb-select>
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'country' + i}}" class="labelst">Country</label>
+                        <nb-select placeholder="Select Country" fullWidth formControlName="countryId">
+                          <nb-option [value]="item.countryId"  *ngFor="let item of nationalities">{{item.countryName}}</nb-option>
+                        </nb-select>
+                      </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label attr.for="{{'provisionType' + i}}" class="labelst">Provision Type</label>
+                          <input type="number" formControlName="provisionType" nbInput fullWidth id="{{'provisionType' + i}}" placeholder="Provision Type"
+                          [ngClass]="{'is-invalid':(mainCustomers.controls[i].get('provisionType').touched || mainCustomers.controls[i].get('provisionType').dirty) && (!mainCustomers.controls[i].get('provisionType').valid) }">
+                          <span style="color:#dc3545" *ngIf="(mainCustomers.controls[i].get('provisionType').errors?.max)">
+                            Value must be within the range 0f 0 and 2
+                          </span>
+                        </div>
+                        <div class="form-group">
+                          <label attr.for="{{'Value' + i}}" class="labelst">Value</label>
+                          <input type="number" formControlName="value" nbInput fullWidth id="{{'Value' + i}}" placeholder="Value">
+                        </div>
+                        <div class="form-group">
+                          <label attr.for="{{'Service' + i}}" class="labelst">Service</label>
+                          <nb-select fullWidth placeholder="Select Service" formControlName="serviceId">
+                            <nb-option [value]="item.serviceId"  *ngFor="let item of services">{{item.serviceName}}</nb-option>
+                          </nb-select>
+                        </div>
+
+                      </div>
+                  </div>
+                </ng-container>
+                <button type="button" class="mb-4 mr-2" [disabled]= "(mainCustomers.controls[mainCustomers.length-1].pristine)" (click)="addMainCustomer()" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="plus-outline"></nb-icon> Add
+                </button>
+                <button type="button" class="mb-4" [disabled]= "(mainCustomers.length < 2)" (click)="removeMainCustomer(mainCustomers.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="close-outline"></nb-icon> Remove
+                </button>
+              </nb-card-body>
+              </nb-card>
+              <div class="spacebtn">
+              <!-- <button nbButton nbStepperPrevious [status]="'success'" outline  [size]="'medium'">SUPPLIER PROFILE - STEP 3</button> -->
+              <button nbButton (click)="part=1" style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">RETURN TO PART 1</button>
+              <button nbButton nbStepperNext style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">CONTINUE TO PART 2 STEP 2</button>
+              </div>
+        </nb-step>
+        <nb-step [label]="labelTwo">
+          <ng-template #labelTwo><span class="labelst">STAFF STRENGTH & COMPETENCES</span></ng-template>
+            <nb-card>
+              <nb-card-header><div class="row justify-content-center labelst">STAFF STRENGTH & COMPETENCES</div>
+                <!-- <div class="row justify-content-center labelst"> Fields marked (*) are mandatory</div> -->
+                <div class="row justify-content-center labelst">Part 2 (step 2 of 3)</div>
+              </nb-card-header>
+                <nb-card-body>
+                    <ng-container formArrayName="noOfEmployees" *ngFor="let item of noOfEmployees.controls; let i =index" >
+                      <div class="row mb" [formGroupName]="i"> 
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label attr.for="{{'department' + i}}" class="labelst">Department</label>
+                          <nb-select fullWidth id="{{'department' + i}}" placeholder="Department" formControlName="departmentId">
+                            <nb-option [value]="item.venDepId"  *ngFor="let item of departments">{{item.venDepTitle}}</nb-option>
+                          </nb-select>
+                        </div>
+                    <div class="form-group">
+                      <label attr.for="{{'staffNumber' + i}}" class="labelst">Number of Staff</label>
+                      <input type="number" nbInput fullWidth id="{{'staffNumber' + i}}" placeholder="No Of Staff" formControlName="noOfEmployees">
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label attr.for="{{'contractStaffNumber' + i}}" class="labelst">Number Of Contract Staff</label>
+                        <input type="number" nbInput fullWidth id="{{'contractStaffNumber' + i}}" placeholder="No Of Contract Staff" formControlName="noOfContractEmp">
+                      </div>
+                      <div class="form-group">
+                        <label attr.for="{{'expatriatesNumber' + i}}" class="labelst">Number Of Expatriates</label>
+                        <input type="number" nbInput fullWidth id="{{'expatriatesNumber' + i}}" placeholder="No Of Expatriates" formControlName="noOfExpatriates">
+                      </div>
+                        </div>
+                    </div>
+                    </ng-container>
+                    <button type="button" class="mb-3 mr-2" [disabled]= "(noOfEmployees.controls[noOfEmployees.length-1].pristine)" (click)="addNoEmployee()" nbButton outline [status]="'info'" [size]="'small'">
+                      <nb-icon icon="plus-outline"></nb-icon> Add
+                    </button>
+                    <button type="button" class="mb-3" [disabled]= "(noOfEmployees.length < 2)" (click)="removeNoEmployee(noOfEmployees.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                      <nb-icon icon="close-outline"></nb-icon> Remove
+                    </button>
+
+                    <div class="row mb-md-4" formGroupName="staffStrengthCom">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="staffTrainingPolicy" class="labelst">Staff Training Policy</label><br>
+                          <ngx-file-picker [id]="1" [fileName]=" this.service.stfTrPyName" (fileSelected)="onStaffTrainPolicy($event)"></ngx-file-picker>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                        <label for="auditby3rdParty" class="labelst">Audit by 3rd Party</label><br>
+                        <ngx-file-picker [id]="2" [fileName]=" this.service.audTrdPtName" (fileSelected)="onAuditThirdParty($event)"></ngx-file-picker>
+                      </div>
+                    </div>
+                    </div>
+                </nb-card-body>
+              </nb-card>
+              <div class="spacebtn">
+              <button nbButton nbStepperPrevious style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">BUSINESS EXPERIENCE - Part 2 STEP 1</button>
+              <button nbButton nbStepperNext style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">CONTINUE TO PART 2 STEP 3</button>
+              </div>
+        </nb-step>
+        <nb-step [label]="labelThree">
+          <ng-template #labelThree><span class="labelst">FINANCIALS</span></ng-template>
+            <nb-card>
+              <nb-card-header><div class="row justify-content-center labelst">FINANCIALS</div>
+                <!-- <div class="row justify-content-center labelst"> Fields marked (*) are mandatory</div> -->
+                <div class="row justify-content-center labelst">Part 2 (step 3 of 3)</div>
+              </nb-card-header>
+                <nb-card-body>
+                <ng-container formArrayName="financialStatement" *ngFor="let item of financialStatement.controls; let i =index" >
+                  <div class="row" [formGroupName]="i">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label attr.for="{{'finStatmentYear' + i}}" class="labelst">financial Statement Year</label>
+                        <input type="number" nbInput fullWidth id="{{'finStatmentYear' + i}}" placeholder="E.g 1" formControlName="financialStatementYear">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                      <label attr.for="{{'finStatment' + i}}" class="labelst">Financial Statement (year {{i+1}})</label><br>
+                      <ngx-file-picker [id]="1 + i" [fileName]=" this.service.finStaYr[i]" (fileSelected)="onFiniancialStatement($event)"></ngx-file-picker>
+                    </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <button type="button" class="mb-4 mr-2" [disabled]= "(financialStatement.controls[financialStatement.length-1].pristine)" (click)="addFinStatement()" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="plus-outline"></nb-icon> Add
+                </button>
+                <button type="button" class="mb-4" [disabled]= "(financialStatement.length < 2)" (click)="removeFinStatement(financialStatement.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                  <nb-icon icon="close-outline"></nb-icon> Remove
+                </button>
+                    <div class="row" formGroupName="financialAudit">
+                    <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="auditorName" class="labelst">Auditor Name</label>
+                      <input type="text" nbInput fullWidth id="auditorName" placeholder="Auditor Name" formControlName="auditorName">
+                    </div>
+                    <div class="form-group">
+                      <label for="auditorNumber" class="labelst">Auditor Contact Number</label>
+                      <input type="text" nbInput fullWidth id="auditorNumber" placeholder="Auditor Contact Number" formControlName="contactNumber">
+                      <span style="color:#dc3545" *ngIf="(vendorForm.get('financialAudit').get('contactNumber').errors?.pattern)">
+                        please enter a valid Contact Number !!!
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="stockMarketInfo" class="labelst">Annual Report</label><br>
+                      <ngx-file-picker [id]="1 + financialStatement.length" [fileName]=" this.service.annRepName" (fileSelected)="onAnnualReport($event)"></ngx-file-picker>
+                    </div>
+                   <div style="margin-top: 20px;"><nb-checkbox formControlName="isListed">Is the company Listed in a stock Market ?</nb-checkbox></div> 
+                    </div>
+                        
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="auditorAddress" class="labelst">Auditor Address</label>
+                        <input type="text" nbInput fullWidth id="auditorAddress" placeholder="Auditor Address" formControlName="auditorAddress">
+                      </div>
+                      <div class="form-group">
+                        <label for="taxIdNum" class="labelst">Tax Identification Number</label>
+                        <input type="text" nbInput fullWidth id="taxIdNum" placeholder="Tax Identification Number" formControlName="taxIdentificationNo">
+                      </div>
+                      <div class="form-group">
+                      <label for="stockMarketInfo" class="labelst">Stock Market Info</label><br>
+                      <ngx-file-picker [id]="2 + financialStatement.length" [fileName]=" this.service.stkMkInfoName" (fileSelected)="onStockInfo($event)"></ngx-file-picker>
+                    </div>
+                        </div>
+                    </div>
+                </nb-card-body>
+              </nb-card>
+              <div class="spacebtn">
+              <button nbButton nbStepperPrevious style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">SSC - PART 2 STEP 2</button>
+              <!-- <button nbButton nbStepperNext style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">CONTINUE TO STEP 7</button> -->
+              <button nbButton (click)="part = 3" style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">PROCEED TO PART 3</button>
+              </div>
+        </nb-step>
+      </nb-stepper>
+      <nb-stepper #stepper3 orientation="horizontal" *ngIf="part == 3">
+        <nb-step [label]="labelOne">
+          <ng-template #labelOne><span style="margin-left: 30px;" class="labelst">QUALITY MANAGEMENT</span></ng-template>
+            <nb-card> 
+              <nb-card-header><div class="row justify-content-center labelst">QUALITY MANAGEMENT</div>
+              <!-- <div class="row justify-content-center labelst"> Fields marked (*) are mandatory</div> -->
+              <div class="row justify-content-center labelst"> Part 3 (step 1 of 4)</div>
+            </nb-card-header>
+              <nb-card-body>
+                  <div class="row mb-4" formGroupName="qualityManagement">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                        <label for="qualityPolicy" class="labelst">Quality Policy</label><br>
+                        <ngx-file-picker [id]="1" [fileName]=" this.service.quaPolName" (fileSelected)="onQualityPolicy($event)"></ngx-file-picker>
+                      </div>
+                      <div class="form-group">
+                      <label for="qualityManagement" class="labelst">Quality Management</label><br>
+                      <ngx-file-picker [id]="2" [fileName]=" this.service.quaManName" (fileSelected)="onQualityManage($event)"></ngx-file-picker>
+                    </div>
+                  <div class="form-group">
+                    <label for="qualityManagerPhoneNumber" class="labelst">Quality Manager Phone Number</label>
+                    <input type="text" nbInput fullWidth id="qualityManagerPhoneNumber" placeholder="Quality Manager Phone Number" formControlName="phoneNumber">
+                    <span style="color:#dc3545" *ngIf="(vendorForm.get('qualityManagement').get('phoneNumber').errors?.pattern)">
+                      Please enter a valid HSE Phone Number !!!
+                    </span>
+                  </div>
+                  <div class="form-group">
+                    <label for="qualityManagerFax" class="labelst">Quality Manager Fax</label>
+                    <input type="text" nbInput fullWidth id="qualityManagerFax" placeholder="Quality Manager Fax" formControlName="fax">
+                  </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="productQualityMag" class="labelst">Product Quality Management</label><br>
+                      <ngx-file-picker [id]="3" [fileName]=" this.service.prodQuaManName" (fileSelected)="onProductQualityManage($event)"></ngx-file-picker>
+                    </div>
+                    <div class="form-group">
+                      <label for="qualityManagerName" class="labelst">Quality Manager Name</label>
+                      <input type="text" nbInput fullWidth id="qualityManagerName" placeholder="Quality Manager Name" formControlName="qualManagerName">
+                    </div>
+                    <div class="form-group">
+                      <label for="qualityManagerEmail" class="labelst">Quality Manager Email</label>
+                      <input type="email" nbInput fullWidth id="qualityManagerEmail" placeholder="Quality Manager Email" formControlName="qualManagerEmail">
+                      <span style="color:#dc3545" *ngIf="(vendorForm.get('qualityManagement').get('qualManagerEmail').errors?.email)">
+                        Please enter a valid Email !!!
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="qualityManagerWkPHNB" class="labelst">Quality Manager Work Phone Number</label>
+                      <input type="text" nbInput fullWidth id="qualityManagerWkPHNB" placeholder="Quality Manager Work Phone Number" formControlName="workPhoneNumber">
+                      <span style="color:#dc3545" *ngIf="(vendorForm.get('qualityManagement').get('workPhoneNumber').errors?.pattern)">
+                        Please enter a valid Work Phone Number !!!
+                      </span>
+                    </div>
+                  </div>
+                  </div>
+                  <ng-container formArrayName="qualityCertifications" *ngFor="let item of qualityCertifications.controls; let i =index" >
+                    <div class="row" [formGroupName]="i">
+                    <div class="col-md-6">
+                  <div class="form-group">
+                    <label attr.for="{{'qualityCertDetails' + i}}"  class="labelst">Quality Certification Details</label>
+                    <textarea rows="4" nbInput fullWidth id="{{'qualityCertDetails' + i}}"  placeholder="Quality Certification Details" formControlName="details"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label attr.for="{{'certificateOrgName' + i}}" class="labelst">Certification Organization Name</label>
+                    <nb-select fullWidth placeholder="Certification Organization Name" id="{{'certificateOrgName' + i}}" formControlName="certOrgId">
+                      <nb-option [value]="item.certOrgId"  *ngFor="let item of certificateOrganizations">{{item.certOrgName}}</nb-option>
+                    </nb-select>
+                  </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label attr.for="{{'certificationName' + i}}" class="labelst">Name of Certification</label>
+                      <input type="text" nbInput fullWidth id="certificationName" placeholder="Name of Certification" formControlName="nameofCertificate"> 
+                    </div>
+                    <div class="form-group">
+                      <label attr.for="{{'validityDate' + i}}" class="labelst">Validity Date</label>
+                      <input nbInput fullWidth placeholder="eg 22/07/2020" [nbDatepicker]="dateTimePicker" formControlName="validityDate">
+                      <nb-datepicker #dateTimePicker></nb-datepicker>
+                    </div>
+                    <div class="form-group">
+                      <label attr.for="{{'certificateCopy' + i}}"  class="labelst">Certificate Copy</label><br>
+                      <ngx-file-picker [id]="4 + i" [fileName]=" this.service.quaCertCopy[i]" (fileSelected)="onCertificateCopy($event)"></ngx-file-picker>
+                    </div>
+                  </div>
+                  </div>
+                  </ng-container>
+                  <button type="button" class="mb-3 mr-2" [disabled]= "(qualityCertifications.controls[qualityCertifications.length-1].pristine)" (click)="addQualityCert()" nbButton outline [status]="'info'" [size]="'small'">
+                    <nb-icon icon="plus-outline"></nb-icon> Add
+                  </button>
+                  <button type="button" class="mb-3" [disabled]= "(qualityCertifications.length < 2)" (click)="removeQualityCert(qualityCertifications.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+                    <nb-icon icon="close-outline"></nb-icon> Remove
+                  </button>
+              </nb-card-body>
+              </nb-card>
+              <div class="spacebtn">
+                <!-- <button nbButton nbStepperPrevious [status]="'success'" outline  [size]="'medium'">FINANCIALS - STEP 6</button> -->
+                <button nbButton (click)="part = 2" style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">RETURN TO PART 2</button>
+                <button nbButton nbStepperNext style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">CONTINUE TO PART 3 STEP 2</button>
+              </div>
+        </nb-step>
+        <nb-step [label]="labeltwo">
+          <ng-template #labeltwo><span class="labelst">HSE</span></ng-template>
+            <nb-card>
+              <nb-card-header><div class="row justify-content-center labelst">HSE</div>
+              <!-- <div class="row justify-content-center labelst"> Fields marked (*) are mandatory</div> -->
+              <div class="row justify-content-center labelst"> Part 3 (step 2 of 4)</div>
+            </nb-card-header>
+              <nb-card-body>
+                  <div class="row mb-4" formGroupName="healthSafetyEnvironment">
+                      <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="hsePolicy" class="labelst">HSE Policy</label><br>
+                      <ngx-file-picker [id]="1" [fileName]=" this.service.hsePolName" (fileSelected)="onHsePolicy($event)"></ngx-file-picker>
+                    </div>
+                  <div class="form-group">
+                    <label for="hseManagerName" class="labelst">HSE Manager Name</label>
+                    <input type="text" nbInput fullWidth id="hseManagerName" placeholder="HSE Manager Name" formControlName="hseManagerName">
+                  </div>
+                  <div class="form-group">
+                    <label for="hsePhoneNumber" class="labelst">HSE Phone Number</label>
+                    <input type="tel" nbInput fullWidth id="hsePhoneNumber" placeholder="HSE Phone Number" formControlName="phoneNumber">
+                    <span style="color:#dc3545" *ngIf="(vendorForm.get('healthSafetyEnvironment').get('phoneNumber').errors?.pattern)">
+                      Please enter a valid HSE Phone Number !!!
+                    </span>
+                  </div>
+                  <div class="form-group">
+                    <label for="hseFax" class="labelst">HSE Fax</label>
+                    <input type="text" nbInput fullWidth id="hseFax" placeholder="HSE Fax" formControlName="fax">
+                  </div>
+                  <div class="form-group">
+                    <label for="hseComResYr1" class="labelst">HSE Company results Year N-1</label><br>
+                    <ngx-file-picker [id]="2" [fileName]=" this.service.hseComResName" (fileSelected)="onHseComRes($event)"></ngx-file-picker>
+                  </div>
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="hse3rdPartyAudit" class="labelst">HSE Third Party Audit</label><br>
+                      <ngx-file-picker [id]="3" [fileName]=" this.service.hseTrdPtyName" (fileSelected)="onHseThirdPartyAudit($event)"></ngx-file-picker>
+                    </div>
+                    <div class="form-group">
+                      <label for="hseManagerEmail" class="labelst">HSE Manager Email</label>
+                      <input type="email" nbInput fullWidth id="hseManagerEmail" placeholder="HSE Manager Email" formControlName="hseManagerEmail">
+                      <span style="color:#dc3545" *ngIf="(vendorForm.get('healthSafetyEnvironment').get('hseManagerEmail').errors?.email)">
+                        Please enter a valid Email !!!
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="workPhoneNumberHse" class="labelst">HSE Work Phone Number</label>
+                      <input type="tel" nbInput fullWidth id="workPhoneNumberHse" placeholder="HSE Work Phone Number" formControlName="workPhoneNumber">
+                      <span style="color:#dc3545" *ngIf="(vendorForm.get('healthSafetyEnvironment').get('workPhoneNumber').errors?.pattern)">
+                        Please enter a valid Work Phone Number !!!
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="hseCompanyKpi" class="labelst">HSE Company KPI</label><br>
+                      <ngx-file-picker [id]="4" [fileName]=" this.service.hseComKpiName" (fileSelected)="onHseComKpi($event)"></ngx-file-picker>
+                    </div>
+                    <div class="form-group">
+                      <label for="hseStaffTraining" class="labelst">HSE Staff Training</label><br>
+                      <ngx-file-picker [id]="5" [fileName]=" this.service.hseStfTrName" (fileSelected)="onHseStaffTraining($event)"></ngx-file-picker>
+                    </div>
+                      </div>
+                      </div>
+                      <ng-container formArrayName="hseCertifications" *ngFor="let item of hseCertifications.controls; let i =index" >
+                        <div class="row" [formGroupName]="i">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label attr.for="{{'certificationName' + i}}" class="labelst">HSE Name of Certification</label>
+                            <input type="text" nbInput fullWidth id="certificationName" placeholder="Name of Certification" formControlName="nameofCertificate"> 
+                          </div>
+                          <div class="form-group">
+                            <label attr.for="{{'certificateCopy' + i}}"  class="labelst">HSE Certificate Copy</label><br>
+                            <ngx-file-picker [id]="6 + i" [fileName]=" this.service.hseCertCopy[i]" (fileSelected)="onHseCertCopy($event)"></ngx-file-picker>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label attr.for="{{'certificateOrgName' + i}}" class="labelst">HSE Certification Organization Name</label>
+                          <nb-select fullWidth placeholder="Certification Organization Name" id="{{'certificateOrgName' + i}}" formControlName="certOrgId">
+                            <nb-option [value]="item.certOrgId"  *ngFor="let item of certificateOrganizations">{{item.certOrgName}}</nb-option>
+                          </nb-select>
+                        </div>
+                        <div class="form-group">
+                          <label attr.for="{{'validityDate' + i}}" class="labelst">HSE Validity Date</label>
+                          <input nbInput fullWidth placeholder="eg 22/07/2020" [nbDatepicker]="dateTimePicker" formControlName="validityDate">
+                          <nb-datepicker #dateTimePicker></nb-datepicker>
+                        </div>
+                      </div>
+                      </div>
+                      </ng-container>
+                      <button type="button" class="mb-3 mr-2" [disabled]= "(hseCertifications.controls[hseCertifications.length-1].pristine)" (click)="addHseCert()" nbButton outline [status]="'info'" [size]="'small'">
+                        <nb-icon icon="plus-outline"></nb-icon> Add
+                      </button>
+                      <button type="button" class="mb-3" [disabled]= "(hseCertifications.length < 2)" (click)="removeHseCert(hseCertifications.length-1)" nbButton outline [status]="'info'" [size]="'small'">
+                        <nb-icon icon="close-outline"></nb-icon> Remove
+                      </button>
+              </nb-card-body>
+              </nb-card>
+              <div class="spacebtn">
+              <button nbButton nbStepperPrevious style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">QUALITY MANAGEMENT - PART 3 STEP 1</button>
+              <button nbButton nbStepperNext style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">CONTINUE TO PART 3 STEP 3</button>
+              </div>
+        </nb-step>
+        <nb-step [label]="labelthree">
+          <ng-template #labelthree><span class="labelst">ADDITIONAL INFORMATION</span></ng-template>
+          <nb-card>
+          <nb-card-header><div class="row justify-content-center labelst">ADDITIONAL INFORMATION</div>
+          <!-- <div class="row justify-content-center labelst"> Fields marked (*) are mandatory</div> -->
+          <div class="row justify-content-center labelst"> Part 3 (step 3 of 4)</div>
+        </nb-card-header>
+          <nb-card-body>
+            <div class="row mb-4" formGroupName="corpSocialResponsibility">
+                <div class="col-md-6">
+              <div class="form-group">
+                <label for="fraudPolicy" class="labelst">Fraud and Malpractice Policy</label><br>
+                <ngx-file-picker [id]="1" [fileName]=" this.service.frdMalPyName" (fileSelected)="onMalPractice($event)"></ngx-file-picker>
+              </div>
+              <div class="form-group">
+                <label for="thirdPartySocialAudit" class="labelst">Third Party Social Audit</label><br>
+                <ngx-file-picker [id]="2" [fileName]=" this.service.trdPtySocAudName" (fileSelected)="onThirdPartySocAud($event)"></ngx-file-picker>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="laws" class="labelst">Social Responsibility, Ethics, Human and Labour Laws</label><br>
+                <ngx-file-picker [id]="3" [fileName]=" this.service.socResHumEthLawName" (fileSelected)="onSocResEthHumLabLaw($event)"></ngx-file-picker>
+              </div>
+                </div>
+                </div>
+            <!--corporativeDistinctives -->
+            <ng-container formArrayName="corporativeDistinctives" *ngFor="let item of corporativeDistinctives.controls; let i =index" >
+              <div class="row" [formGroupName]="i">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label attr.for="{{'details' + i}}" class="labelst">Corporative Distinctive Details</label>
+                  <textarea rows="4" nbInput fullWidth id="{{'details' + i}}" placeholder="Corporative Distinctive Details" formControlName="details"></textarea>
+                </div>
+            </div>
+            </div>
+            </ng-container>
+            <button type="button" class="mb-4 mr-2" [disabled]= "(corporativeDistinctives.controls[corporativeDistinctives.length-1].pristine)" (click)="addCorpDistintives()" nbButton outline [status]="'info'" [size]="'small'">
+              <nb-icon icon="plus-outline"></nb-icon> Add
+            </button>
+            <button type="button" class="mb-4" [disabled]= "(corporativeDistinctives.length < 2)" (click)="removeCorpDistintives(corporativeDistinctives.length - 1)" nbButton outline [status]="'info'" [size]="'small'">
+              <nb-icon icon="close-outline"></nb-icon> Remove
+            </button>
+          </nb-card-body>
+          </nb-card>
+              <div class="spacebtn">
+              <button nbButton nbStepperPrevious style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">HSE - PART 3 STEP 2</button>
+              <button nbButton nbStepperNext style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">CONTINUE TO PART 3 STEP 4</button>
+              </div>
+        </nb-step>
+        <nb-step [label]="labelFour">
+          <ng-template #labelFour><span style="margin-right: 80px;" class="labelst">PRODUCT & SERVICE CATEGORY</span></ng-template>
+          <nb-card>
+          <nb-card-header><div class="row justify-content-center labelst">PRODUCT & SERVICE CATEGORY</div>
+          <!-- <div class="row justify-content-center labelst"> Fields marked (*) are mandatory</div> -->
+          <div class="row justify-content-center labelst"> Part 3 (step 4 of 4)</div>
+        </nb-card-header>
+          <nb-card-body>
+            <form [formGroup]="supplierForm">
+              <div class="row justify-content-center" *ngIf="(supplierForm.valid)">
+                <span style="color: blue; font: 1em Open Sans, sans-serif;" >please ensure to click the add button</span>
+              </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="SubCategorySpecialization" class="labelst">Category</label>
+                  <nb-select fullWidth placeholder="Select Category" [(selected)]="cart">
+                    <nb-option value="1">Product</nb-option>
+                    <nb-option value="2">Service</nb-option>
+                  </nb-select>
+                </div>
+              </div>
+            </div>
+              <div class="row" *ngIf="cart == 1">
+                <div class="col-md-6">
+                <!-- <div class="form-group">
+                  <label for="ProductServiceCategory" class="labelst">Supplier</label>
+                  <nb-select fullWidth placeholder="Select the supplier" formControlName="supplierId">
+                    <nb-option [value]="item.supplierId"  *ngFor="let item of suppliers">{{item.companyName}}</nb-option>
+                  </nb-select>
+                  <span style="color:#dc3545" *ngIf="(supplierForm.get('supplierId').touched) && (supplierForm.get('supplierId').errors?.required)">
+                    Please select the Supplier !!!
+                  </span>
+                </div> -->
+                <div class="form-group">
+                  <label for="ProductServiceCategory" class="labelst">Product Service Category</label>
+                  <nb-select fullWidth placeholder="Product Service Category" formControlName="productServiceCategoryId">
+                    <nb-option [value]="item.prodServId"  *ngFor="let item of productServiceCategory">{{item.categoryType}}</nb-option>
+                  </nb-select>
+                  <span style="color:#dc3545" *ngIf="(supplierForm.get('productServiceCategoryId').touched) && (supplierForm.get('productServiceCategoryId').errors?.required)">
+                    Please select the Product Service Category !!!
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label for="CategorySpecialization" class="labelst">Category Specialization</label>
+                  <nb-select fullWidth placeholder="Category Specialization" formControlName="catSpecId">
+                    <nb-option [value]="item.catSpecId"  *ngFor="let item of categorySpecialization">{{item.specType}}</nb-option>
+                  </nb-select>
+                  <span style="color:#dc3545" *ngIf="(supplierForm.get('catSpecId').touched) && (supplierForm.get('catSpecId').errors?.required)">
+                    Please select the Product Service Category !!!
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="CategorySpecialization" class="labelst">DPR Category</label>
+                  <nb-select fullWidth placeholder="Select DPR Category" formControlName="dprcatId">
+                    <nb-option [value]="item.dprcatId"  *ngFor="let item of DPRCategory">{{item.dprcatName}}</nb-option>
+                  </nb-select>
+                  <span style="color:#dc3545" *ngIf="(supplierForm.get('dprcatId').touched) && (supplierForm.get('dprcatId').errors?.required)">
+                    Please select the DPR Category !!!
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label for="ProductCategory" class="labelst">Product Category</label>
+                  <nb-select fullWidth placeholder="Product Category" formControlName="productCategoryId">
+                    <nb-option [value]="item.productCatId"  *ngFor="let item of productCategory">{{item.productCatName}}</nb-option>
+                  </nb-select>
+                </div>
+                <div class="form-group">
+                  <label for="Product" class="labelst">Product</label>
+                  <nb-select fullWidth placeholder="Product" formControlName="productId">
+                    <nb-option [value]="item.productId"  *ngFor="let item of products">{{item.productName}}</nb-option>
+                  </nb-select>
+                </div>
+              </div>
+                </div>
+                  <div class="row" *ngIf="cart == 2">
+                  <div class="col-md-6">
+                    <!-- <div class="form-group">
+                      <label for="ProductServiceCategory" class="labelst">Supplier</label>
+                      <nb-select fullWidth placeholder="Select the supplier" formControlName="supplierId">
+                        <nb-option [value]="item.supplierId"  *ngFor="let item of suppliers">{{item.companyName}}</nb-option>
+                      </nb-select>
+                      <span style="color:#dc3545" *ngIf="(supplierForm.get('supplierId').touched) && (supplierForm.get('supplierId').errors?.required)">
+                        Please select the Supplier !!!
+                      </span>
+                    </div> -->
+                    <div class="form-group">
+                      <label for="ProductServiceCategory" class="labelst">Product Service Category</label>
+                      <nb-select fullWidth placeholder="Product Service Category" formControlName="productServiceCategoryId">
+                        <nb-option [value]="item.prodServId"  *ngFor="let item of productServiceCategory">{{item.categoryType}}</nb-option>
+                      </nb-select>
+                      <span style="color:#dc3545" *ngIf="(supplierForm.get('productServiceCategoryId').touched) && (supplierForm.get('productServiceCategoryId').errors?.required)">
+                        Please select the Product Service Category !!!
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="CategorySpecialization" class="labelst">Category Specialization</label>
+                      <nb-select fullWidth placeholder="Category Specialization" formControlName="catSpecId">
+                        <nb-option [value]="item.catSpecId"  *ngFor="let item of categorySpecialization">{{item.specType}}</nb-option>
+                      </nb-select>
+                      <span style="color:#dc3545" *ngIf="(supplierForm.get('catSpecId').touched) && (supplierForm.get('catSpecId').errors?.required)">
+                        Please select the Product Service Category !!!
+                      </span>
+                    </div>
+                   </div>
+                   <div class="col-md-6">
+                     <div class="form-group">
+                       <label for="CategorySpecialization" class="labelst">DPR Category</label>
+                       <nb-select fullWidth placeholder="Select DPR Category" formControlName="dprcatId">
+                         <nb-option [value]="item.dprcatId"  *ngFor="let item of DPRCategory">{{item.dprcatName}}</nb-option>
+                       </nb-select>
+                       <span style="color:#dc3545" *ngIf="(supplierForm.get('dprcatId').touched) && (supplierForm.get('dprcatId').errors?.required)">
+                         Please select the DPR Category !!!
+                       </span>
+                     </div>
+                     <div class="form-group">
+                       <label for="ServiceCategory" class="labelst">Service Category</label>
+                       <nb-select fullWidth placeholder="Service Category" formControlName="serviceCategoryId">
+                         <nb-option [value]="item.servCatId"  *ngFor="let item of serviceCategory">{{item.servCatName}}</nb-option>
+                       </nb-select>
+                     </div>
+                     <div class="form-group">
+                       <label for="Service" class="labelst">Service</label>
+                       <nb-select fullWidth placeholder="Service" formControlName="serviceId">
+                         <nb-option [value]="item.serviceId"  *ngFor="let item of services">{{item.serviceName}}</nb-option>
+                       </nb-select>
+                     </div>
+                   </div>
+                   </div>
+                  <button type="button" *ngIf="cart" class="mb-4" [disabled]= "(supplierForm.pristine)" (click)="addsupplierCategorizations(supplierForm.value)" nbButton outline [status]="'info'" [size]="'small'">
+                    <nb-icon icon="plus-outline"></nb-icon> Add
+                  </button>
+                </form>
+                <div class="table-responsive mt-3" *ngIf="supplierCategorizations.value.length > 0">
+                <table class="table table-striped table-bordered">
+                  <thead>
+                    <tr style="text-align: center;">
+                      <!-- <th>Supplier</th> -->
+                      <th>Product</th>
+                      <th>Service</th>
+                      <th>Dpr Category</th>
+                      <th>Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="text-align: center;" *ngFor="let item of supplierCategorizations.value">
+                      <!-- <td>{{getSupplierText(item?.supplierId)}}</td> -->
+                      <td>{{getProductText(item?.productId)}}</td>
+                      <td>{{getServiceText(item?.serviceId)}}</td>
+                      <td>{{getDprCatText(item?.dprcatId)}}</td>
+                      <td>
+                        <button type="button" [disabled]= "(supplierCategorizations.value.length < 0)" (click)="removeSupplierCategorizations(supplierCategorizations.value.indexOf(item))" nbButton outline [status]="'info'" [size]="'small'">
+                          <nb-icon icon="close-outline"></nb-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </nb-card-body>
+          </nb-card>
+          <div class="spacebtn">
+          <button nbButton nbStepperPrevious style=" color: #1F1FFF; border-color: #1F1FFF;" outline  [size]="'medium'">ADDITIONAL INFO - PART 3 STEP 3</button>
+          <button nbButton  [status]="'success'" (click)="onSubmit()">Submit</button>
+        </div>
+        </nb-step>
+      </nb-stepper>
+    </nb-card-body>
+  </nb-card>
+</form>
+  <!-- <br> value:{{vendorForm.value | json}} -->
+
+  <!-- <br>valuee:{{subsidiaryCompanies.controls[subsidiaryCompanies.length-1].value | json}}
+  <br> v2:{{(subsidiaryCompanies.controls[subsidiaryCompanies.length-1].get('subsidiaryCompanyName').value | json)}} -->

@@ -1,0 +1,32 @@
+<div class="container" *ngIf="false">
+
+    <div class="select-box">
+      <div class="options-container" #optioncon>
+        <div class="option" #optionlist *ngFor="let item of data">
+          <input
+            type="radio"
+            class="radio"
+            id="item.contactPersonId"
+            name="item.contactPersonName"
+          />
+          <label>{{item.contactPersonName}}</label>
+        </div>
+      </div>
+
+      <div class="selected" (click)="onSelect()">
+        Select Video Category
+      </div>
+
+      <div  class="search-box">
+        <input #search type="text" placeholder="Start Typing..." (keyup)="onKeyUp($event)"/>
+      </div>
+    </div>
+  </div>
+
+
+  <nb-select #sele fullWidth placeholder="">
+    <nb-option [value]="item.contactPersonId"  *ngFor="let item of data">{{item.contactPersonName}}</nb-option>
+  </nb-select>
+  <div  class="search-box">
+    <input #search type="text" placeholder="Start Typing..." (keyup)="onKeyUp($event)"/>
+  </div>
