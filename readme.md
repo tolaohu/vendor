@@ -1,1 +1,1 @@
-this is vendor applicaion
+vendor applicaion
